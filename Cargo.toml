@@ -5,7 +5,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.9.2"
+version = "0.9.3"
 edition = "2021"
 description = "Substreams development kit for near chains, contains Firehose Block model and helpers as well as utilities for near ABI encoding/decoding."
 homepage = "https://substreams.streamingfast.io/"
