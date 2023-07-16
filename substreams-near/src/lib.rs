@@ -1,0 +1,1 @@
+pub use substreams_near_core::{block_view, pb};
