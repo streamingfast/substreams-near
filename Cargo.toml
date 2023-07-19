@@ -10,7 +10,7 @@ opt-level = 's'
 strip = "debuginfo"
 
 [workspace.package]
-version = "0.9.5"
+version = "0.9.6"
 edition = "2021"
 description = "Substreams development kit for near chains, contains Firehose Block model and helpers."
 homepage = "https://substreams.streamingfast.io/"
@@ -22,5 +22,5 @@ categories = ["api-bindings", "external-ffi-bindings", "wasm"]
 rust-version = "1.60"
 
 [workspace.dependencies]
-substreams-near = { version = "0.9.5", path = "./substreams-near" }
-substreams-ethereum-core = { version = "0.9.5", path = "./core" }
+substreams-near = { version = "0.9.6", path = "./substreams-near" }
+substreams-near-core = { version = "0.9.6", path = "./core" }
