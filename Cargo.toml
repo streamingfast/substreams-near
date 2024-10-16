@@ -10,7 +10,7 @@ opt-level = 's'
 strip = "debuginfo"
 
 [workspace.package]
-version = "0.9.6"
+version = "0.10.0"
 edition = "2021"
 description = "Substreams development kit for near chains, contains Firehose Block model and helpers."
 homepage = "https://substreams.streamingfast.io/"
@@ -19,8 +19,7 @@ license = "Apache-2.0"
 readme = "README.md"
 keywords = [ "substreams", "near", "streamingfast", "firehose", "thegraph"]
 categories = ["api-bindings", "external-ffi-bindings", "wasm"]
-rust-version = "1.60"
 
 [workspace.dependencies]
-substreams-near = { version = "0.9.6", path = "./substreams-near" }
-substreams-near-core = { version = "0.9.6", path = "./core" }
+substreams-near = { version = "0.10.0", path = "./substreams-near" }
+substreams-near-core = { version = "0.10.0", path = "./core" }
