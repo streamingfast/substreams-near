@@ -1,8 +1,6 @@
 [workspace]
-members = [
-    "core",
-    "substreams-near"
-]
+members = ["core", "substreams-near"]
+resolver = "2"
 
 [profile.release]
 lto = true
@@ -12,12 +10,12 @@ strip = "debuginfo"
 [workspace.package]
 version = "0.10.0"
 edition = "2021"
-description = "Substreams development kit for near chains, contains Firehose Block model and helpers."
+description = "Substreams development kit for NEAR chains, contains Firehose Block model and helpers."
 homepage = "https://substreams.streamingfast.io/"
 repository = "https://github.com/streamingfast/substreams-ethereum/tree/develop/substreams-near"
 license = "Apache-2.0"
 readme = "README.md"
-keywords = [ "substreams", "near", "streamingfast", "firehose", "thegraph"]
+keywords = ["substreams", "near", "streamingfast", "firehose", "thegraph"]
 categories = ["api-bindings", "external-ffi-bindings", "wasm"]
 rust-version = "1.71.1"
 
