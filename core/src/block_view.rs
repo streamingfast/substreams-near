@@ -1,4 +1,4 @@
-use crate::{pb::sf::near::r#type::v1 as pb};
+use crate::pb::sf::near::r#type::v1 as pb;
 use hex;
 
 impl pb::Block {
@@ -10,11 +10,9 @@ impl pb::Block {
 
     pub fn hash(&self) -> Option<String> {
         match &self.header {
-            Some(header) => {
-                match &header.hash {
-                    Some(hash) => Some(hex::encode(&hash.bytes)),
-                    None => None,
-                }
+            Some(header) => match &header.hash {
+                Some(hash) => Some(hex::encode(&hash.bytes)),
+                None => None,
             },
             None => None,
         }
@@ -30,4 +28,3 @@ impl AsRef<Vec<pb::StateChangeWithCause>> for StateChangesView<'_> {
         self.state_changes
     }
 }
-

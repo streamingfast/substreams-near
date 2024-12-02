@@ -12,11 +12,11 @@ categories.workspace = true
 rust-version.workspace = true
 
 [dependencies]
-substreams = "^0.6.0"
-substreams-near-core = { version = "0.10.0", path = "../core" }
+substreams = { workspace = true }
+substreams-near-core = { workspace = true }
 
 [target.wasm32-unknown-unknown.dependencies]
 getrandom = { version = "0.2", features = ["custom"] }
 
 [dev-dependencies]
-anyhow = "1"
+anyhow = { workspace = true }
