@@ -9,13 +9,10 @@ impl pb::Block {
     }
 
     pub fn hash(&self) -> Option<String> {
-        match &self.header {
-            Some(header) => match &header.hash {
-                Some(hash) => Some(hex::encode(&hash.bytes)),
-                None => None,
-            },
-            None => None,
-        }
+        self.header
+            .as_option()
+            .and_then(|header| header.hash.as_option())
+            .map(|hash| hex::encode(&hash.bytes))
     }
 }
 
@@ -26,5 +23,37 @@ pub struct StateChangesView<'a> {
 impl AsRef<Vec<pb::StateChangeWithCause>> for StateChangesView<'_> {
     fn as_ref(&self) -> &Vec<pb::StateChangeWithCause> {
         self.state_changes
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn hash_is_none_without_a_header() {
+        assert_eq!(pb::Block::default().hash(), None);
+    }
+
+    #[test]
+    fn hash_is_none_when_the_header_carries_no_hash() {
+        let mut block = pb::Block::default();
+        block.header = buffa::MessageField::some(pb::BlockHeader::default());
+
+        assert_eq!(block.hash(), None);
+    }
+
+    #[test]
+    fn hash_is_hex_encoded() {
+        let mut header = pb::BlockHeader::default();
+        header.hash = buffa::MessageField::some(pb::CryptoHash {
+            bytes: vec![0xde, 0xad, 0xbe, 0xef],
+            ..Default::default()
+        });
+
+        let mut block = pb::Block::default();
+        block.header = buffa::MessageField::some(header);
+
+        assert_eq!(block.hash(), Some("deadbeef".to_string()));
     }
 }
