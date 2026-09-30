@@ -7,6 +7,7 @@
 pub enum CurveKind {
     ED25519 = 0i32,
     SECP256K1 = 1i32,
+    MLDSA65 = 2i32,
 }
 impl CurveKind {
     ///Idiomatic alias for [`Self::ED25519`]; `Debug` prints the variant name.
@@ -15,6 +16,9 @@ impl CurveKind {
     ///Idiomatic alias for [`Self::SECP256K1`]; `Debug` prints the variant name.
     #[allow(non_upper_case_globals)]
     pub const Secp256k1: Self = Self::SECP256K1;
+    ///Idiomatic alias for [`Self::MLDSA65`]; `Debug` prints the variant name.
+    #[allow(non_upper_case_globals)]
+    pub const Mldsa65: Self = Self::MLDSA65;
 }
 impl ::core::default::Default for CurveKind {
     fn default() -> Self {
@@ -26,6 +30,7 @@ impl ::buffa::Enumeration for CurveKind {
         match value {
             0i32 => ::core::option::Option::Some(Self::ED25519),
             1i32 => ::core::option::Option::Some(Self::SECP256K1),
+            2i32 => ::core::option::Option::Some(Self::MLDSA65),
             _ => ::core::option::Option::None,
         }
     }
@@ -36,17 +41,19 @@ impl ::buffa::Enumeration for CurveKind {
         match self {
             Self::ED25519 => "ED25519",
             Self::SECP256K1 => "SECP256K1",
+            Self::MLDSA65 => "MLDSA65",
         }
     }
     fn from_proto_name(name: &str) -> ::core::option::Option<Self> {
         match name {
             "ED25519" => ::core::option::Option::Some(Self::ED25519),
             "SECP256K1" => ::core::option::Option::Some(Self::SECP256K1),
+            "MLDSA65" => ::core::option::Option::Some(Self::MLDSA65),
             _ => ::core::option::Option::None,
         }
     }
     fn values() -> &'static [Self] {
-        &[Self::ED25519, Self::SECP256K1]
+        &[Self::ED25519, Self::SECP256K1, Self::MLDSA65]
     }
 }
 #[allow(non_camel_case_types)]
@@ -180,6 +187,8 @@ pub enum ReceiptValidationError {
     ReturnedValueLengthExceeded = 4i32,
     NumberInputDataDependenciesExceeded = 5i32,
     ActionsValidationError = 6i32,
+    ReceiptSizeExceeded = 7i32,
+    InvalidRefundTo = 8i32,
 }
 impl ::core::default::Default for ReceiptValidationError {
     fn default() -> Self {
@@ -198,6 +207,8 @@ impl ::buffa::Enumeration for ReceiptValidationError {
                 ::core::option::Option::Some(Self::NumberInputDataDependenciesExceeded)
             }
             6i32 => ::core::option::Option::Some(Self::ActionsValidationError),
+            7i32 => ::core::option::Option::Some(Self::ReceiptSizeExceeded),
+            8i32 => ::core::option::Option::Some(Self::InvalidRefundTo),
             _ => ::core::option::Option::None,
         }
     }
@@ -215,6 +226,8 @@ impl ::buffa::Enumeration for ReceiptValidationError {
                 "NumberInputDataDependenciesExceeded"
             }
             Self::ActionsValidationError => "ActionsValidationError",
+            Self::ReceiptSizeExceeded => "ReceiptSizeExceeded",
+            Self::InvalidRefundTo => "InvalidRefundTo",
         }
     }
     fn from_proto_name(name: &str) -> ::core::option::Option<Self> {
@@ -240,6 +253,10 @@ impl ::buffa::Enumeration for ReceiptValidationError {
             "ActionsValidationError" => {
                 ::core::option::Option::Some(Self::ActionsValidationError)
             }
+            "ReceiptSizeExceeded" => {
+                ::core::option::Option::Some(Self::ReceiptSizeExceeded)
+            }
+            "InvalidRefundTo" => ::core::option::Option::Some(Self::InvalidRefundTo),
             _ => ::core::option::Option::None,
         }
     }
@@ -252,6 +269,8 @@ impl ::buffa::Enumeration for ReceiptValidationError {
             Self::ReturnedValueLengthExceeded,
             Self::NumberInputDataDependenciesExceeded,
             Self::ActionsValidationError,
+            Self::ReceiptSizeExceeded,
+            Self::InvalidRefundTo,
         ]
     }
 }
@@ -274,6 +293,13 @@ pub enum InvalidTxError {
     Expired = 11i32,
     ActionsValidation = 12i32,
     TransactionSizeExceeded = 13i32,
+    InvalidTransactionVersion = 14i32,
+    StorageError = 15i32,
+    ShardCongested = 16i32,
+    ShardStuck = 17i32,
+    InvalidNonceIndex = 18i32,
+    NotEnoughGasKeyBalance = 19i32,
+    NotEnoughBalanceForDeposit = 20i32,
 }
 impl ::core::default::Default for InvalidTxError {
     fn default() -> Self {
@@ -297,6 +323,13 @@ impl ::buffa::Enumeration for InvalidTxError {
             11i32 => ::core::option::Option::Some(Self::Expired),
             12i32 => ::core::option::Option::Some(Self::ActionsValidation),
             13i32 => ::core::option::Option::Some(Self::TransactionSizeExceeded),
+            14i32 => ::core::option::Option::Some(Self::InvalidTransactionVersion),
+            15i32 => ::core::option::Option::Some(Self::StorageError),
+            16i32 => ::core::option::Option::Some(Self::ShardCongested),
+            17i32 => ::core::option::Option::Some(Self::ShardStuck),
+            18i32 => ::core::option::Option::Some(Self::InvalidNonceIndex),
+            19i32 => ::core::option::Option::Some(Self::NotEnoughGasKeyBalance),
+            20i32 => ::core::option::Option::Some(Self::NotEnoughBalanceForDeposit),
             _ => ::core::option::Option::None,
         }
     }
@@ -319,6 +352,13 @@ impl ::buffa::Enumeration for InvalidTxError {
             Self::Expired => "Expired",
             Self::ActionsValidation => "ActionsValidation",
             Self::TransactionSizeExceeded => "TransactionSizeExceeded",
+            Self::InvalidTransactionVersion => "InvalidTransactionVersion",
+            Self::StorageError => "StorageError",
+            Self::ShardCongested => "ShardCongested",
+            Self::ShardStuck => "ShardStuck",
+            Self::InvalidNonceIndex => "InvalidNonceIndex",
+            Self::NotEnoughGasKeyBalance => "NotEnoughGasKeyBalance",
+            Self::NotEnoughBalanceForDeposit => "NotEnoughBalanceForDeposit",
         }
     }
     fn from_proto_name(name: &str) -> ::core::option::Option<Self> {
@@ -345,6 +385,19 @@ impl ::buffa::Enumeration for InvalidTxError {
             "TransactionSizeExceeded" => {
                 ::core::option::Option::Some(Self::TransactionSizeExceeded)
             }
+            "InvalidTransactionVersion" => {
+                ::core::option::Option::Some(Self::InvalidTransactionVersion)
+            }
+            "StorageError" => ::core::option::Option::Some(Self::StorageError),
+            "ShardCongested" => ::core::option::Option::Some(Self::ShardCongested),
+            "ShardStuck" => ::core::option::Option::Some(Self::ShardStuck),
+            "InvalidNonceIndex" => ::core::option::Option::Some(Self::InvalidNonceIndex),
+            "NotEnoughGasKeyBalance" => {
+                ::core::option::Option::Some(Self::NotEnoughGasKeyBalance)
+            }
+            "NotEnoughBalanceForDeposit" => {
+                ::core::option::Option::Some(Self::NotEnoughBalanceForDeposit)
+            }
             _ => ::core::option::Option::None,
         }
     }
@@ -364,6 +417,13 @@ impl ::buffa::Enumeration for InvalidTxError {
             Self::Expired,
             Self::ActionsValidation,
             Self::TransactionSizeExceeded,
+            Self::InvalidTransactionVersion,
+            Self::StorageError,
+            Self::ShardCongested,
+            Self::ShardStuck,
+            Self::InvalidNonceIndex,
+            Self::NotEnoughGasKeyBalance,
+            Self::NotEnoughBalanceForDeposit,
         ]
     }
 }
@@ -6778,6 +6838,14 @@ impl ::buffa::Message for Receipt {
                         += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
                             + inner as u64;
                 }
+                __buffa::oneof::receipt::Receipt::GlobalContractDistribution(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
             }
         }
         ::buffa::saturate_size(size)
@@ -6816,6 +6884,14 @@ impl ::buffa::Message for Receipt {
                 __buffa::oneof::receipt::Receipt::Data(x) => {
                     ::buffa::types::put_len_delimited_header(
                         11u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::receipt::Receipt::GlobalContractDistribution(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        12u32,
                         u64::from(__cache.consume_next()),
                         buf,
                     );
@@ -6900,6 +6976,28 @@ impl ::buffa::Message for Receipt {
                     );
                 }
             }
+            12u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::receipt::Receipt::GlobalContractDistribution(
+                        ref mut existing,
+                    ),
+                ) = self.receipt
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.receipt = ::core::option::Option::Some(
+                        __buffa::oneof::receipt::Receipt::GlobalContractDistribution(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
             _ => {
                 ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
             }
@@ -6920,6 +7018,254 @@ pub mod receipt {
     pub use super::__buffa::oneof::receipt::Receipt;
     #[doc(inline)]
     pub use super::__buffa::view::oneof::receipt::Receipt as ReceiptView;
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct ReceiptGlobalContractDistribution {
+    /// Field 11: `target_shard`
+    pub target_shard: u64,
+    /// Field 12: `already_delivered_shards`
+    pub already_delivered_shards: ::buffa::alloc::vec::Vec<u64>,
+    /// Field 13: `code`
+    pub code: ::buffa::alloc::vec::Vec<u8>,
+    pub id: ::core::option::Option<
+        __buffa::oneof::receipt_global_contract_distribution::Id,
+    >,
+}
+impl ::core::fmt::Debug for ReceiptGlobalContractDistribution {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("ReceiptGlobalContractDistribution")
+            .field("target_shard", &self.target_shard)
+            .field("already_delivered_shards", &self.already_delivered_shards)
+            .field("code", &self.code)
+            .field("id", &self.id)
+            .finish()
+    }
+}
+impl ReceiptGlobalContractDistribution {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.ReceiptGlobalContractDistribution";
+}
+::buffa::impl_default_instance!(ReceiptGlobalContractDistribution);
+impl ::buffa::MessageName for ReceiptGlobalContractDistribution {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "ReceiptGlobalContractDistribution";
+    const FULL_NAME: &'static str = "sf.near.type.v1.ReceiptGlobalContractDistribution";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.ReceiptGlobalContractDistribution";
+}
+impl ::buffa::Message for ReceiptGlobalContractDistribution {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if let ::core::option::Option::Some(ref v) = self.id {
+            match v {
+                __buffa::oneof::receipt_global_contract_distribution::Id::CodeHash(
+                    x,
+                ) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::receipt_global_contract_distribution::Id::AccountId(
+                    x,
+                ) => {
+                    size += 1u64 + ::buffa::types::string_encoded_len(x) as u64;
+                }
+            }
+        }
+        if self.target_shard != 0u64 {
+            size += 1u64 + ::buffa::types::uint64_encoded_len(self.target_shard) as u64;
+        }
+        if !self.already_delivered_shards.is_empty() {
+            let payload: u64 = self
+                .already_delivered_shards
+                .iter()
+                .map(|&v| ::buffa::types::uint64_encoded_len(v) as u64)
+                .sum::<u64>();
+            size += 1u64 + ::buffa::encoding::varint_len(payload) as u64 + payload;
+        }
+        if !self.code.is_empty() {
+            size += 1u64 + ::buffa::types::bytes_encoded_len(&self.code) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if let ::core::option::Option::Some(ref v) = self.id {
+            match v {
+                __buffa::oneof::receipt_global_contract_distribution::Id::CodeHash(
+                    x,
+                ) => {
+                    ::buffa::types::put_len_delimited_header(
+                        1u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::receipt_global_contract_distribution::Id::AccountId(
+                    x,
+                ) => {
+                    ::buffa::types::put_string_field(2u32, x, buf);
+                }
+            }
+        }
+        if self.target_shard != 0u64 {
+            ::buffa::types::put_uint64_field(11u32, self.target_shard, buf);
+        }
+        if !self.already_delivered_shards.is_empty() {
+            let payload: u64 = self
+                .already_delivered_shards
+                .iter()
+                .map(|&v| ::buffa::types::uint64_encoded_len(v) as u64)
+                .sum::<u64>();
+            ::buffa::types::put_len_delimited_header(12u32, payload, buf);
+            for &v in &self.already_delivered_shards {
+                ::buffa::types::encode_uint64(v, buf);
+            }
+        }
+        if !self.code.is_empty() {
+            ::buffa::types::put_shared_bytes_field(13u32, &self.code, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::receipt_global_contract_distribution::Id::CodeHash(
+                        ref mut existing,
+                    ),
+                ) = self.id
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.id = ::core::option::Option::Some(
+                        __buffa::oneof::receipt_global_contract_distribution::Id::CodeHash(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                self.id = ::core::option::Option::Some(
+                    __buffa::oneof::receipt_global_contract_distribution::Id::AccountId(
+                        ::buffa::types::decode_string(buf)?,
+                    ),
+                );
+            }
+            11u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.target_shard = ::buffa::types::decode_uint64(buf)?;
+            }
+            12u32 => {
+                if tag.wire_type() == ::buffa::encoding::WireType::LengthDelimited {
+                    let len = ::buffa::encoding::decode_varint(buf)?;
+                    let len = usize::try_from(len)
+                        .map_err(|_| ::buffa::DecodeError::MessageTooLarge)?;
+                    if buf.remaining() < len {
+                        return ::core::result::Result::Err(
+                            ::buffa::DecodeError::UnexpectedEof,
+                        );
+                    }
+                    if buf.chunk().len() >= len {
+                        ::buffa::types::extend_packed_uint64(
+                            &buf.chunk()[..len],
+                            &mut self.already_delivered_shards,
+                            len,
+                        )?;
+                        buf.advance(len);
+                    } else {
+                        self.already_delivered_shards.reserve(len);
+                        let mut limited = buf.take(len);
+                        while limited.has_remaining() {
+                            self.already_delivered_shards
+                                .push(::buffa::types::decode_uint64_packed(&mut limited)?);
+                        }
+                        let leftover = limited.remaining();
+                        if leftover > 0 {
+                            limited.advance(leftover);
+                        }
+                    }
+                } else if tag.wire_type() == ::buffa::encoding::WireType::Varint {
+                    self.already_delivered_shards
+                        .push(::buffa::types::decode_uint64(buf)?);
+                } else {
+                    return ::core::result::Result::Err(
+                        ::buffa::encoding::wire_type_mismatch(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        ),
+                    );
+                }
+            }
+            13u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_bytes(&mut self.code, buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.id = ::core::option::Option::None;
+        self.target_shard = 0u64;
+        self.already_delivered_shards.clear();
+        self.code.clear();
+    }
+}
+pub mod receipt_global_contract_distribution {
+    #[allow(unused_imports)]
+    use super::*;
+    #[doc(inline)]
+    pub use super::__buffa::oneof::receipt_global_contract_distribution::Id;
+    #[doc(inline)]
+    pub use super::__buffa::view::oneof::receipt_global_contract_distribution::Id as IdView;
 }
 #[derive(Clone, PartialEq, Default)]
 pub struct ReceiptData {
@@ -8568,6 +8914,92 @@ impl ::buffa::Message for ActionError {
                         += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
                             + inner as u64;
                 }
+                __buffa::oneof::action_error::Kind::NonRefundableTransferToExistingAccount(
+                    x,
+                ) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action_error::Kind::GlobalContractDoesNotExist(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action_error::Kind::GasKeyDoesNotExist(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action_error::Kind::InsufficientGasKeyBalance(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action_error::Kind::GasKeyBalanceTooHigh(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action_error::Kind::DelegateActionInvalidNonceIndex(
+                    x,
+                ) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action_error::Kind::TotalPromiseInputSizeExceeded(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action_error::Kind::ReceiptStorageProofSizeExceeded(
+                    x,
+                ) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action_error::Kind::MalformedUniversalStateInit(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action_error::Kind::AccountNotInitialized(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
             }
         }
         ::buffa::saturate_size(size)
@@ -8761,6 +9193,92 @@ impl ::buffa::Message for ActionError {
                 __buffa::oneof::action_error::Kind::DelegateActionNonceTooLarge(x) => {
                     ::buffa::types::put_len_delimited_header(
                         42u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::NonRefundableTransferToExistingAccount(
+                    x,
+                ) => {
+                    ::buffa::types::put_len_delimited_header(
+                        43u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::GlobalContractDoesNotExist(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        44u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::GasKeyDoesNotExist(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        45u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::InsufficientGasKeyBalance(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        46u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::GasKeyBalanceTooHigh(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        47u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::DelegateActionInvalidNonceIndex(
+                    x,
+                ) => {
+                    ::buffa::types::put_len_delimited_header(
+                        48u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::TotalPromiseInputSizeExceeded(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        49u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::ReceiptStorageProofSizeExceeded(
+                    x,
+                ) => {
+                    ::buffa::types::put_len_delimited_header(
+                        50u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::MalformedUniversalStateInit(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        51u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action_error::Kind::AccountNotInitialized(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        52u32,
                         u64::from(__cache.consume_next()),
                         buf,
                     );
@@ -9260,6 +9778,226 @@ impl ::buffa::Message for ActionError {
                     ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
                     self.kind = ::core::option::Option::Some(
                         __buffa::oneof::action_error::Kind::DelegateActionNonceTooLarge(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            43u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::NonRefundableTransferToExistingAccount(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::NonRefundableTransferToExistingAccount(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            44u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::GlobalContractDoesNotExist(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::GlobalContractDoesNotExist(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            45u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::GasKeyDoesNotExist(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::GasKeyDoesNotExist(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            46u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::InsufficientGasKeyBalance(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::InsufficientGasKeyBalance(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            47u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::GasKeyBalanceTooHigh(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::GasKeyBalanceTooHigh(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            48u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::DelegateActionInvalidNonceIndex(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::DelegateActionInvalidNonceIndex(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            49u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::TotalPromiseInputSizeExceeded(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::TotalPromiseInputSizeExceeded(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            50u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::ReceiptStorageProofSizeExceeded(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::ReceiptStorageProofSizeExceeded(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            51u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::MalformedUniversalStateInit(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::MalformedUniversalStateInit(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            52u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action_error::Kind::AccountNotInitialized(
+                        ref mut existing,
+                    ),
+                ) = self.kind
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.kind = ::core::option::Option::Some(
+                        __buffa::oneof::action_error::Kind::AccountNotInitialized(
                             ::buffa::alloc::boxed::Box::new(val),
                         ),
                     );
@@ -11472,6 +12210,1113 @@ impl ::buffa::Message for DelegateActionNonceTooLargeKind {
     }
 }
 #[derive(Clone, PartialEq, Default)]
+pub struct NonRefundableTransferToExistingAccountKind {
+    /// Field 1: `account_id`
+    pub account_id: ::buffa::alloc::string::String,
+}
+impl ::core::fmt::Debug for NonRefundableTransferToExistingAccountKind {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("NonRefundableTransferToExistingAccountKind")
+            .field("account_id", &self.account_id)
+            .finish()
+    }
+}
+impl NonRefundableTransferToExistingAccountKind {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.NonRefundableTransferToExistingAccountKind";
+}
+::buffa::impl_default_instance!(NonRefundableTransferToExistingAccountKind);
+impl ::buffa::MessageName for NonRefundableTransferToExistingAccountKind {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "NonRefundableTransferToExistingAccountKind";
+    const FULL_NAME: &'static str = "sf.near.type.v1.NonRefundableTransferToExistingAccountKind";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.NonRefundableTransferToExistingAccountKind";
+}
+impl ::buffa::Message for NonRefundableTransferToExistingAccountKind {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.account_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.account_id) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.account_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.account_id, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.account_id, buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.account_id.clear();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct GlobalContractDoesNotExist {
+    pub identifier: ::core::option::Option<
+        __buffa::oneof::global_contract_does_not_exist::Identifier,
+    >,
+}
+impl ::core::fmt::Debug for GlobalContractDoesNotExist {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("GlobalContractDoesNotExist")
+            .field("identifier", &self.identifier)
+            .finish()
+    }
+}
+impl GlobalContractDoesNotExist {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GlobalContractDoesNotExist";
+}
+::buffa::impl_default_instance!(GlobalContractDoesNotExist);
+impl ::buffa::MessageName for GlobalContractDoesNotExist {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "GlobalContractDoesNotExist";
+    const FULL_NAME: &'static str = "sf.near.type.v1.GlobalContractDoesNotExist";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GlobalContractDoesNotExist";
+}
+impl ::buffa::Message for GlobalContractDoesNotExist {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if let ::core::option::Option::Some(ref v) = self.identifier {
+            match v {
+                __buffa::oneof::global_contract_does_not_exist::Identifier::CodeHash(
+                    x,
+                ) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::global_contract_does_not_exist::Identifier::AccountId(
+                    x,
+                ) => {
+                    size += 1u64 + ::buffa::types::string_encoded_len(x) as u64;
+                }
+            }
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if let ::core::option::Option::Some(ref v) = self.identifier {
+            match v {
+                __buffa::oneof::global_contract_does_not_exist::Identifier::CodeHash(
+                    x,
+                ) => {
+                    ::buffa::types::put_len_delimited_header(
+                        1u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::global_contract_does_not_exist::Identifier::AccountId(
+                    x,
+                ) => {
+                    ::buffa::types::put_string_field(2u32, x, buf);
+                }
+            }
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::global_contract_does_not_exist::Identifier::CodeHash(
+                        ref mut existing,
+                    ),
+                ) = self.identifier
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.identifier = ::core::option::Option::Some(
+                        __buffa::oneof::global_contract_does_not_exist::Identifier::CodeHash(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                self.identifier = ::core::option::Option::Some(
+                    __buffa::oneof::global_contract_does_not_exist::Identifier::AccountId(
+                        ::buffa::types::decode_string(buf)?,
+                    ),
+                );
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.identifier = ::core::option::Option::None;
+    }
+}
+pub mod global_contract_does_not_exist {
+    #[allow(unused_imports)]
+    use super::*;
+    #[doc(inline)]
+    pub use super::__buffa::oneof::global_contract_does_not_exist::Identifier;
+    #[doc(inline)]
+    pub use super::__buffa::view::oneof::global_contract_does_not_exist::Identifier as IdentifierView;
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct GasKeyDoesNotExistKind {
+    /// Field 1: `account_id`
+    pub account_id: ::buffa::alloc::string::String,
+    /// Field 2: `public_key`
+    pub public_key: ::buffa::MessageField<PublicKey, ::buffa::Inline<PublicKey>>,
+}
+impl ::core::fmt::Debug for GasKeyDoesNotExistKind {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("GasKeyDoesNotExistKind")
+            .field("account_id", &self.account_id)
+            .field("public_key", &self.public_key)
+            .finish()
+    }
+}
+impl GasKeyDoesNotExistKind {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GasKeyDoesNotExistKind";
+}
+::buffa::impl_default_instance!(GasKeyDoesNotExistKind);
+impl ::buffa::MessageName for GasKeyDoesNotExistKind {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "GasKeyDoesNotExistKind";
+    const FULL_NAME: &'static str = "sf.near.type.v1.GasKeyDoesNotExistKind";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GasKeyDoesNotExistKind";
+}
+impl ::buffa::Message for GasKeyDoesNotExistKind {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.account_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.account_id) as u64;
+        }
+        if self.public_key.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.public_key.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.account_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.account_id, buf);
+        }
+        if self.public_key.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                2u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.public_key.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.account_id, buf)?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.public_key.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.account_id.clear();
+        self.public_key = ::buffa::MessageField::none();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct InsufficientGasKeyBalanceKind {
+    /// Field 1: `account_id`
+    pub account_id: ::buffa::alloc::string::String,
+    /// Field 2: `public_key`
+    pub public_key: ::buffa::MessageField<PublicKey, ::buffa::Inline<PublicKey>>,
+    /// Field 3: `balance`
+    pub balance: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+    /// Field 4: `required`
+    pub required: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+}
+impl ::core::fmt::Debug for InsufficientGasKeyBalanceKind {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("InsufficientGasKeyBalanceKind")
+            .field("account_id", &self.account_id)
+            .field("public_key", &self.public_key)
+            .field("balance", &self.balance)
+            .field("required", &self.required)
+            .finish()
+    }
+}
+impl InsufficientGasKeyBalanceKind {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.InsufficientGasKeyBalanceKind";
+}
+::buffa::impl_default_instance!(InsufficientGasKeyBalanceKind);
+impl ::buffa::MessageName for InsufficientGasKeyBalanceKind {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "InsufficientGasKeyBalanceKind";
+    const FULL_NAME: &'static str = "sf.near.type.v1.InsufficientGasKeyBalanceKind";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.InsufficientGasKeyBalanceKind";
+}
+impl ::buffa::Message for InsufficientGasKeyBalanceKind {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.account_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.account_id) as u64;
+        }
+        if self.public_key.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.public_key.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.balance.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.balance.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.required.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.required.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.account_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.account_id, buf);
+        }
+        if self.public_key.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                2u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.public_key.write_to(__cache, buf);
+        }
+        if self.balance.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                3u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.balance.write_to(__cache, buf);
+        }
+        if self.required.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                4u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.required.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.account_id, buf)?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.public_key.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            3u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.balance.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            4u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.required.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.account_id.clear();
+        self.public_key = ::buffa::MessageField::none();
+        self.balance = ::buffa::MessageField::none();
+        self.required = ::buffa::MessageField::none();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct GasKeyBalanceTooHighKind {
+    /// Field 1: `account_id`
+    pub account_id: ::buffa::alloc::string::String,
+    /// Set for DeleteKey (specific key), unset for DeleteAccount (aggregate)
+    ///
+    /// Field 2: `public_key`
+    pub public_key: ::buffa::MessageField<PublicKey, ::buffa::Inline<PublicKey>>,
+    /// Field 3: `balance`
+    pub balance: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+}
+impl ::core::fmt::Debug for GasKeyBalanceTooHighKind {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("GasKeyBalanceTooHighKind")
+            .field("account_id", &self.account_id)
+            .field("public_key", &self.public_key)
+            .field("balance", &self.balance)
+            .finish()
+    }
+}
+impl GasKeyBalanceTooHighKind {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GasKeyBalanceTooHighKind";
+}
+::buffa::impl_default_instance!(GasKeyBalanceTooHighKind);
+impl ::buffa::MessageName for GasKeyBalanceTooHighKind {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "GasKeyBalanceTooHighKind";
+    const FULL_NAME: &'static str = "sf.near.type.v1.GasKeyBalanceTooHighKind";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GasKeyBalanceTooHighKind";
+}
+impl ::buffa::Message for GasKeyBalanceTooHighKind {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.account_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.account_id) as u64;
+        }
+        if self.public_key.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.public_key.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.balance.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.balance.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.account_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.account_id, buf);
+        }
+        if self.public_key.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                2u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.public_key.write_to(__cache, buf);
+        }
+        if self.balance.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                3u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.balance.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.account_id, buf)?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.public_key.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            3u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.balance.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.account_id.clear();
+        self.public_key = ::buffa::MessageField::none();
+        self.balance = ::buffa::MessageField::none();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct DelegateActionInvalidNonceIndexKind {
+    /// Field 1: `nonce_index`
+    pub nonce_index: u32,
+    /// Field 2: `num_nonces`
+    pub num_nonces: u32,
+}
+impl ::core::fmt::Debug for DelegateActionInvalidNonceIndexKind {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("DelegateActionInvalidNonceIndexKind")
+            .field("nonce_index", &self.nonce_index)
+            .field("num_nonces", &self.num_nonces)
+            .finish()
+    }
+}
+impl DelegateActionInvalidNonceIndexKind {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DelegateActionInvalidNonceIndexKind";
+}
+::buffa::impl_default_instance!(DelegateActionInvalidNonceIndexKind);
+impl ::buffa::MessageName for DelegateActionInvalidNonceIndexKind {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "DelegateActionInvalidNonceIndexKind";
+    const FULL_NAME: &'static str = "sf.near.type.v1.DelegateActionInvalidNonceIndexKind";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DelegateActionInvalidNonceIndexKind";
+}
+impl ::buffa::Message for DelegateActionInvalidNonceIndexKind {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.nonce_index != 0u32 {
+            size += 1u64 + ::buffa::types::uint32_encoded_len(self.nonce_index) as u64;
+        }
+        if self.num_nonces != 0u32 {
+            size += 1u64 + ::buffa::types::uint32_encoded_len(self.num_nonces) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.nonce_index != 0u32 {
+            ::buffa::types::put_uint32_field(1u32, self.nonce_index, buf);
+        }
+        if self.num_nonces != 0u32 {
+            ::buffa::types::put_uint32_field(2u32, self.num_nonces, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.nonce_index = ::buffa::types::decode_uint32(buf)?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.num_nonces = ::buffa::types::decode_uint32(buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.nonce_index = 0u32;
+        self.num_nonces = 0u32;
+    }
+}
+/// The combined size of the resolved promise inputs (the DataReceipts referenced
+/// by the receipt's input_data_ids) exceeded max_receipt_total_input_size.
+#[derive(Clone, PartialEq, Default)]
+pub struct TotalPromiseInputSizeExceededKind {
+    /// Field 1: `size`
+    pub size: u64,
+    /// Field 2: `limit`
+    pub limit: u64,
+}
+impl ::core::fmt::Debug for TotalPromiseInputSizeExceededKind {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("TotalPromiseInputSizeExceededKind")
+            .field("size", &self.size)
+            .field("limit", &self.limit)
+            .finish()
+    }
+}
+impl TotalPromiseInputSizeExceededKind {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.TotalPromiseInputSizeExceededKind";
+}
+::buffa::impl_default_instance!(TotalPromiseInputSizeExceededKind);
+impl ::buffa::MessageName for TotalPromiseInputSizeExceededKind {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "TotalPromiseInputSizeExceededKind";
+    const FULL_NAME: &'static str = "sf.near.type.v1.TotalPromiseInputSizeExceededKind";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.TotalPromiseInputSizeExceededKind";
+}
+impl ::buffa::Message for TotalPromiseInputSizeExceededKind {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.size != 0u64 {
+            size += 1u64 + ::buffa::types::uint64_encoded_len(self.size) as u64;
+        }
+        if self.limit != 0u64 {
+            size += 1u64 + ::buffa::types::uint64_encoded_len(self.limit) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.size != 0u64 {
+            ::buffa::types::put_uint64_field(1u32, self.size, buf);
+        }
+        if self.limit != 0u64 {
+            ::buffa::types::put_uint64_field(2u32, self.limit, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.size = ::buffa::types::decode_uint64(buf)?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.limit = ::buffa::types::decode_uint64(buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.size = 0u64;
+        self.limit = 0u64;
+    }
+}
+/// The receipt recorded more storage proof than per_receipt_storage_proof_size_limit
+/// allows. The actions after the offending one do not run.
+#[derive(Clone, PartialEq, Default)]
+pub struct ReceiptStorageProofSizeExceededKind {
+    /// Field 1: `limit`
+    pub limit: u64,
+}
+impl ::core::fmt::Debug for ReceiptStorageProofSizeExceededKind {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("ReceiptStorageProofSizeExceededKind")
+            .field("limit", &self.limit)
+            .finish()
+    }
+}
+impl ReceiptStorageProofSizeExceededKind {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.ReceiptStorageProofSizeExceededKind";
+}
+::buffa::impl_default_instance!(ReceiptStorageProofSizeExceededKind);
+impl ::buffa::MessageName for ReceiptStorageProofSizeExceededKind {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "ReceiptStorageProofSizeExceededKind";
+    const FULL_NAME: &'static str = "sf.near.type.v1.ReceiptStorageProofSizeExceededKind";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.ReceiptStorageProofSizeExceededKind";
+}
+impl ::buffa::Message for ReceiptStorageProofSizeExceededKind {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.limit != 0u64 {
+            size += 1u64 + ::buffa::types::uint64_encoded_len(self.limit) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.limit != 0u64 {
+            ::buffa::types::put_uint64_field(1u32, self.limit, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.limit = ::buffa::types::decode_uint64(buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.limit = 0u64;
+    }
+}
+/// The bytes of a UniversalStateInit action do not decode into a state init.
+#[derive(Clone, PartialEq, Default)]
+pub struct MalformedUniversalStateInitKind {}
+impl ::core::fmt::Debug for MalformedUniversalStateInitKind {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("MalformedUniversalStateInitKind").finish()
+    }
+}
+impl MalformedUniversalStateInitKind {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.MalformedUniversalStateInitKind";
+}
+::buffa::impl_default_instance!(MalformedUniversalStateInitKind);
+impl ::buffa::MessageName for MalformedUniversalStateInitKind {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "MalformedUniversalStateInitKind";
+    const FULL_NAME: &'static str = "sf.near.type.v1.MalformedUniversalStateInitKind";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.MalformedUniversalStateInitKind";
+}
+impl ::buffa::Message for MalformedUniversalStateInitKind {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let size = 0u64;
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        _buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {}
+}
+/// The action needs a set-up account, but the receiver is an uninitialized
+/// universal account: the account exists, it just has no access keys, code or
+/// data yet. Distinct from AccountDoesNotExist.
+#[derive(Clone, PartialEq, Default)]
+pub struct AccountNotInitializedKind {
+    /// Field 1: `account_id`
+    pub account_id: ::buffa::alloc::string::String,
+}
+impl ::core::fmt::Debug for AccountNotInitializedKind {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("AccountNotInitializedKind")
+            .field("account_id", &self.account_id)
+            .finish()
+    }
+}
+impl AccountNotInitializedKind {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.AccountNotInitializedKind";
+}
+::buffa::impl_default_instance!(AccountNotInitializedKind);
+impl ::buffa::MessageName for AccountNotInitializedKind {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "AccountNotInitializedKind";
+    const FULL_NAME: &'static str = "sf.near.type.v1.AccountNotInitializedKind";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.AccountNotInitializedKind";
+}
+impl ::buffa::Message for AccountNotInitializedKind {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.account_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.account_id) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.account_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.account_id, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.account_id, buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.account_id.clear();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
 pub struct MerklePath {
     /// Field 1: `path`
     pub path: ::buffa::alloc::vec::Vec<MerklePathItem>,
@@ -11799,6 +13644,78 @@ impl ::buffa::Message for Action {
                         += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
                             + inner as u64;
                 }
+                __buffa::oneof::action::Action::DeployGlobalContract(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action::Action::DeployGlobalContractByAccountId(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action::Action::UseGlobalContract(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action::Action::UseGlobalContractByAccountId(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action::Action::DeterministicStateInit(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action::Action::TransferToGasKey(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action::Action::WithdrawFromGasKey(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action::Action::DelegateV2(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::action::Action::UniversalStateInit(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 2u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
             }
         }
         ::buffa::saturate_size(size)
@@ -11879,6 +13796,78 @@ impl ::buffa::Message for Action {
                 __buffa::oneof::action::Action::Delegate(x) => {
                     ::buffa::types::put_len_delimited_header(
                         9u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action::Action::DeployGlobalContract(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        10u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action::Action::DeployGlobalContractByAccountId(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        11u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action::Action::UseGlobalContract(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        12u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action::Action::UseGlobalContractByAccountId(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        13u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action::Action::DeterministicStateInit(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        14u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action::Action::TransferToGasKey(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        15u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action::Action::WithdrawFromGasKey(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        16u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action::Action::DelegateV2(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        17u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::action::Action::UniversalStateInit(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        18u32,
                         u64::from(__cache.consume_next()),
                         buf,
                     );
@@ -12078,6 +14067,194 @@ impl ::buffa::Message for Action {
                     );
                 }
             }
+            10u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action::Action::DeployGlobalContract(
+                        ref mut existing,
+                    ),
+                ) = self.action
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.action = ::core::option::Option::Some(
+                        __buffa::oneof::action::Action::DeployGlobalContract(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            11u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action::Action::DeployGlobalContractByAccountId(
+                        ref mut existing,
+                    ),
+                ) = self.action
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.action = ::core::option::Option::Some(
+                        __buffa::oneof::action::Action::DeployGlobalContractByAccountId(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            12u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action::Action::UseGlobalContract(ref mut existing),
+                ) = self.action
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.action = ::core::option::Option::Some(
+                        __buffa::oneof::action::Action::UseGlobalContract(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            13u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action::Action::UseGlobalContractByAccountId(
+                        ref mut existing,
+                    ),
+                ) = self.action
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.action = ::core::option::Option::Some(
+                        __buffa::oneof::action::Action::UseGlobalContractByAccountId(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            14u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action::Action::DeterministicStateInit(
+                        ref mut existing,
+                    ),
+                ) = self.action
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.action = ::core::option::Option::Some(
+                        __buffa::oneof::action::Action::DeterministicStateInit(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            15u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action::Action::TransferToGasKey(ref mut existing),
+                ) = self.action
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.action = ::core::option::Option::Some(
+                        __buffa::oneof::action::Action::TransferToGasKey(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            16u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action::Action::WithdrawFromGasKey(ref mut existing),
+                ) = self.action
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.action = ::core::option::Option::Some(
+                        __buffa::oneof::action::Action::WithdrawFromGasKey(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            17u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action::Action::DelegateV2(ref mut existing),
+                ) = self.action
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.action = ::core::option::Option::Some(
+                        __buffa::oneof::action::Action::DelegateV2(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            18u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::action::Action::UniversalStateInit(ref mut existing),
+                ) = self.action
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.action = ::core::option::Option::Some(
+                        __buffa::oneof::action::Action::UniversalStateInit(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
             _ => {
                 ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
             }
@@ -12095,6 +14272,1396 @@ pub mod action {
     pub use super::__buffa::oneof::action::Action;
     #[doc(inline)]
     pub use super::__buffa::view::oneof::action::Action as ActionView;
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct TransferToGasKeyAction {
+    /// Field 1: `public_key`
+    pub public_key: ::buffa::MessageField<PublicKey, ::buffa::Inline<PublicKey>>,
+    /// Field 2: `deposit`
+    pub deposit: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+}
+impl ::core::fmt::Debug for TransferToGasKeyAction {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("TransferToGasKeyAction")
+            .field("public_key", &self.public_key)
+            .field("deposit", &self.deposit)
+            .finish()
+    }
+}
+impl TransferToGasKeyAction {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.TransferToGasKeyAction";
+}
+::buffa::impl_default_instance!(TransferToGasKeyAction);
+impl ::buffa::MessageName for TransferToGasKeyAction {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "TransferToGasKeyAction";
+    const FULL_NAME: &'static str = "sf.near.type.v1.TransferToGasKeyAction";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.TransferToGasKeyAction";
+}
+impl ::buffa::Message for TransferToGasKeyAction {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.public_key.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.public_key.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.deposit.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.deposit.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.public_key.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.public_key.write_to(__cache, buf);
+        }
+        if self.deposit.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                2u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.deposit.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.public_key.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.deposit.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.public_key = ::buffa::MessageField::none();
+        self.deposit = ::buffa::MessageField::none();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct WithdrawFromGasKeyAction {
+    /// Field 1: `public_key`
+    pub public_key: ::buffa::MessageField<PublicKey, ::buffa::Inline<PublicKey>>,
+    /// Field 2: `amount`
+    pub amount: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+}
+impl ::core::fmt::Debug for WithdrawFromGasKeyAction {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("WithdrawFromGasKeyAction")
+            .field("public_key", &self.public_key)
+            .field("amount", &self.amount)
+            .finish()
+    }
+}
+impl WithdrawFromGasKeyAction {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.WithdrawFromGasKeyAction";
+}
+::buffa::impl_default_instance!(WithdrawFromGasKeyAction);
+impl ::buffa::MessageName for WithdrawFromGasKeyAction {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "WithdrawFromGasKeyAction";
+    const FULL_NAME: &'static str = "sf.near.type.v1.WithdrawFromGasKeyAction";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.WithdrawFromGasKeyAction";
+}
+impl ::buffa::Message for WithdrawFromGasKeyAction {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.public_key.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.public_key.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.amount.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.amount.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.public_key.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.public_key.write_to(__cache, buf);
+        }
+        if self.amount.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                2u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.amount.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.public_key.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.amount.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.public_key = ::buffa::MessageField::none();
+        self.amount = ::buffa::MessageField::none();
+    }
+}
+/// Creates a `0u` universal account (NEP: universal accounts). `state_init` is the
+/// opaque borsh of a UniversalStateInit -- nearcore models it as RawStateInit, a
+/// newtype over the raw bytes -- so it is carried through verbatim rather than
+/// decoded into a structured message here.
+#[derive(Clone, PartialEq, Default)]
+pub struct UniversalStateInitAction {
+    /// Field 1: `state_init`
+    pub state_init: ::buffa::alloc::vec::Vec<u8>,
+    /// Field 2: `deposit`
+    pub deposit: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+}
+impl ::core::fmt::Debug for UniversalStateInitAction {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("UniversalStateInitAction")
+            .field("state_init", &self.state_init)
+            .field("deposit", &self.deposit)
+            .finish()
+    }
+}
+impl UniversalStateInitAction {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.UniversalStateInitAction";
+}
+::buffa::impl_default_instance!(UniversalStateInitAction);
+impl ::buffa::MessageName for UniversalStateInitAction {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "UniversalStateInitAction";
+    const FULL_NAME: &'static str = "sf.near.type.v1.UniversalStateInitAction";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.UniversalStateInitAction";
+}
+impl ::buffa::Message for UniversalStateInitAction {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.state_init.is_empty() {
+            size += 1u64 + ::buffa::types::bytes_encoded_len(&self.state_init) as u64;
+        }
+        if self.deposit.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.deposit.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.state_init.is_empty() {
+            ::buffa::types::put_shared_bytes_field(1u32, &self.state_init, buf);
+        }
+        if self.deposit.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                2u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.deposit.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_bytes(&mut self.state_init, buf)?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.deposit.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.state_init.clear();
+        self.deposit = ::buffa::MessageField::none();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct SignedDelegateActionV2 {
+    /// Field 1: `signature`
+    pub signature: ::buffa::MessageField<Signature, ::buffa::Inline<Signature>>,
+    /// Field 2: `delegate_action`
+    pub delegate_action: ::buffa::MessageField<
+        DelegateActionV2,
+        ::buffa::Inline<DelegateActionV2>,
+    >,
+}
+impl ::core::fmt::Debug for SignedDelegateActionV2 {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("SignedDelegateActionV2")
+            .field("signature", &self.signature)
+            .field("delegate_action", &self.delegate_action)
+            .finish()
+    }
+}
+impl SignedDelegateActionV2 {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.SignedDelegateActionV2";
+}
+::buffa::impl_default_instance!(SignedDelegateActionV2);
+impl ::buffa::MessageName for SignedDelegateActionV2 {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "SignedDelegateActionV2";
+    const FULL_NAME: &'static str = "sf.near.type.v1.SignedDelegateActionV2";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.SignedDelegateActionV2";
+}
+impl ::buffa::Message for SignedDelegateActionV2 {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.signature.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.signature.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.delegate_action.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.delegate_action.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.signature.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.signature.write_to(__cache, buf);
+        }
+        if self.delegate_action.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                2u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.delegate_action.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.signature.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.delegate_action.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.signature = ::buffa::MessageField::none();
+        self.delegate_action = ::buffa::MessageField::none();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct DelegateActionV2 {
+    /// Field 1: `sender_id`
+    pub sender_id: ::buffa::alloc::string::String,
+    /// Field 2: `receiver_id`
+    pub receiver_id: ::buffa::alloc::string::String,
+    /// Field 3: `actions`
+    pub actions: ::buffa::alloc::vec::Vec<Action>,
+    /// Field 4: `nonce`
+    pub nonce: u64,
+    /// Present only for gas-key nonces (GasKeyNonce); unset for a plain nonce.
+    ///
+    /// Field 5: `nonce_index`
+    pub nonce_index: ::core::option::Option<u32>,
+    /// Field 6: `max_block_height`
+    pub max_block_height: u64,
+    /// Field 7: `public_key`
+    pub public_key: ::buffa::MessageField<PublicKey, ::buffa::Inline<PublicKey>>,
+}
+impl ::core::fmt::Debug for DelegateActionV2 {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("DelegateActionV2")
+            .field("sender_id", &self.sender_id)
+            .field("receiver_id", &self.receiver_id)
+            .field("actions", &self.actions)
+            .field("nonce", &self.nonce)
+            .field("nonce_index", &self.nonce_index)
+            .field("max_block_height", &self.max_block_height)
+            .field("public_key", &self.public_key)
+            .finish()
+    }
+}
+impl DelegateActionV2 {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DelegateActionV2";
+}
+impl DelegateActionV2 {
+    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
+    #[inline]
+    ///Sets [`Self::nonce_index`] to `Some(value)`, consuming and returning `self`.
+    pub fn with_nonce_index(mut self, value: u32) -> Self {
+        self.nonce_index = Some(value);
+        self
+    }
+}
+::buffa::impl_default_instance!(DelegateActionV2);
+impl ::buffa::MessageName for DelegateActionV2 {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "DelegateActionV2";
+    const FULL_NAME: &'static str = "sf.near.type.v1.DelegateActionV2";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DelegateActionV2";
+}
+impl ::buffa::Message for DelegateActionV2 {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.sender_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.sender_id) as u64;
+        }
+        if !self.receiver_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.receiver_id) as u64;
+        }
+        for v in &self.actions {
+            let __slot = __cache.reserve();
+            let inner_size = v.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.nonce != 0u64 {
+            size += 1u64 + ::buffa::types::uint64_encoded_len(self.nonce) as u64;
+        }
+        if let Some(v) = self.nonce_index {
+            size += 1u64 + ::buffa::types::uint32_encoded_len(v) as u64;
+        }
+        if self.max_block_height != 0u64 {
+            size
+                += 1u64
+                    + ::buffa::types::uint64_encoded_len(self.max_block_height) as u64;
+        }
+        if self.public_key.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.public_key.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.sender_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.sender_id, buf);
+        }
+        if !self.receiver_id.is_empty() {
+            ::buffa::types::put_string_field(2u32, &self.receiver_id, buf);
+        }
+        for v in &self.actions {
+            ::buffa::types::put_len_delimited_header(
+                3u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            v.write_to(__cache, buf);
+        }
+        if self.nonce != 0u64 {
+            ::buffa::types::put_uint64_field(4u32, self.nonce, buf);
+        }
+        if let Some(v) = self.nonce_index {
+            ::buffa::types::put_uint32_field(5u32, v, buf);
+        }
+        if self.max_block_height != 0u64 {
+            ::buffa::types::put_uint64_field(6u32, self.max_block_height, buf);
+        }
+        if self.public_key.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                7u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.public_key.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.sender_id, buf)?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.receiver_id, buf)?;
+            }
+            3u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                let mut elem = ::core::default::Default::default();
+                ctx.register_element_memory(
+                    ::buffa::__private::element_footprint(&elem),
+                )?;
+                ::buffa::Message::merge_length_delimited(&mut elem, buf, ctx)?;
+                self.actions.push(elem);
+            }
+            4u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.nonce = ::buffa::types::decode_uint64(buf)?;
+            }
+            5u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.nonce_index = ::core::option::Option::Some(
+                    ::buffa::types::decode_uint32(buf)?,
+                );
+            }
+            6u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.max_block_height = ::buffa::types::decode_uint64(buf)?;
+            }
+            7u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.public_key.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.sender_id.clear();
+        self.receiver_id.clear();
+        self.actions.clear();
+        self.nonce = 0u64;
+        self.nonce_index = ::core::option::Option::None;
+        self.max_block_height = 0u64;
+        self.public_key = ::buffa::MessageField::none();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct DeployGlobalContractAction {
+    /// Field 1: `code`
+    pub code: ::buffa::alloc::vec::Vec<u8>,
+}
+impl ::core::fmt::Debug for DeployGlobalContractAction {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("DeployGlobalContractAction").field("code", &self.code).finish()
+    }
+}
+impl DeployGlobalContractAction {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DeployGlobalContractAction";
+}
+::buffa::impl_default_instance!(DeployGlobalContractAction);
+impl ::buffa::MessageName for DeployGlobalContractAction {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "DeployGlobalContractAction";
+    const FULL_NAME: &'static str = "sf.near.type.v1.DeployGlobalContractAction";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DeployGlobalContractAction";
+}
+impl ::buffa::Message for DeployGlobalContractAction {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.code.is_empty() {
+            size += 1u64 + ::buffa::types::bytes_encoded_len(&self.code) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.code.is_empty() {
+            ::buffa::types::put_shared_bytes_field(1u32, &self.code, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_bytes(&mut self.code, buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.code.clear();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct DeployGlobalContractByAccountIdAction {
+    /// Field 1: `code`
+    pub code: ::buffa::alloc::vec::Vec<u8>,
+}
+impl ::core::fmt::Debug for DeployGlobalContractByAccountIdAction {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("DeployGlobalContractByAccountIdAction")
+            .field("code", &self.code)
+            .finish()
+    }
+}
+impl DeployGlobalContractByAccountIdAction {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DeployGlobalContractByAccountIdAction";
+}
+::buffa::impl_default_instance!(DeployGlobalContractByAccountIdAction);
+impl ::buffa::MessageName for DeployGlobalContractByAccountIdAction {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "DeployGlobalContractByAccountIdAction";
+    const FULL_NAME: &'static str = "sf.near.type.v1.DeployGlobalContractByAccountIdAction";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DeployGlobalContractByAccountIdAction";
+}
+impl ::buffa::Message for DeployGlobalContractByAccountIdAction {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.code.is_empty() {
+            size += 1u64 + ::buffa::types::bytes_encoded_len(&self.code) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.code.is_empty() {
+            ::buffa::types::put_shared_bytes_field(1u32, &self.code, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_bytes(&mut self.code, buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.code.clear();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct UseGlobalContractAction {
+    /// Field 1: `code_hash`
+    pub code_hash: ::buffa::MessageField<CryptoHash, ::buffa::Inline<CryptoHash>>,
+}
+impl ::core::fmt::Debug for UseGlobalContractAction {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("UseGlobalContractAction")
+            .field("code_hash", &self.code_hash)
+            .finish()
+    }
+}
+impl UseGlobalContractAction {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.UseGlobalContractAction";
+}
+::buffa::impl_default_instance!(UseGlobalContractAction);
+impl ::buffa::MessageName for UseGlobalContractAction {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "UseGlobalContractAction";
+    const FULL_NAME: &'static str = "sf.near.type.v1.UseGlobalContractAction";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.UseGlobalContractAction";
+}
+impl ::buffa::Message for UseGlobalContractAction {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.code_hash.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.code_hash.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.code_hash.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.code_hash.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.code_hash.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.code_hash = ::buffa::MessageField::none();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct UseGlobalContractByAccountIdAction {
+    /// Field 1: `account_id`
+    pub account_id: ::buffa::alloc::string::String,
+}
+impl ::core::fmt::Debug for UseGlobalContractByAccountIdAction {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("UseGlobalContractByAccountIdAction")
+            .field("account_id", &self.account_id)
+            .finish()
+    }
+}
+impl UseGlobalContractByAccountIdAction {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.UseGlobalContractByAccountIdAction";
+}
+::buffa::impl_default_instance!(UseGlobalContractByAccountIdAction);
+impl ::buffa::MessageName for UseGlobalContractByAccountIdAction {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "UseGlobalContractByAccountIdAction";
+    const FULL_NAME: &'static str = "sf.near.type.v1.UseGlobalContractByAccountIdAction";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.UseGlobalContractByAccountIdAction";
+}
+impl ::buffa::Message for UseGlobalContractByAccountIdAction {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.account_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.account_id) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.account_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.account_id, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.account_id, buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.account_id.clear();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct DeterministicStateInit {
+    /// Field 1: `code`
+    pub code: ::buffa::MessageField<
+        GlobalContractIdentifierView,
+        ::buffa::Inline<GlobalContractIdentifierView>,
+    >,
+    /// data key is base64-encoded string
+    ///
+    /// Field 2: `data`
+    pub data: ::buffa::__private::HashMap<
+        ::buffa::alloc::string::String,
+        ::buffa::alloc::vec::Vec<u8>,
+    >,
+    /// Field 3: `deposit`
+    pub deposit: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+}
+impl ::core::fmt::Debug for DeterministicStateInit {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("DeterministicStateInit")
+            .field("code", &self.code)
+            .field("data", &self.data)
+            .field("deposit", &self.deposit)
+            .finish()
+    }
+}
+impl DeterministicStateInit {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DeterministicStateInit";
+}
+::buffa::impl_default_instance!(DeterministicStateInit);
+impl ::buffa::MessageName for DeterministicStateInit {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "DeterministicStateInit";
+    const FULL_NAME: &'static str = "sf.near.type.v1.DeterministicStateInit";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.DeterministicStateInit";
+}
+impl ::buffa::Message for DeterministicStateInit {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.code.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.code.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        size
+            += ::buffa::map_codec::field_len::<
+                ::buffa::map_codec::Str,
+                ::buffa::map_codec::BytesVec,
+                _,
+            >(&self.data, 1u64);
+        if self.deposit.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.deposit.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.code.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.code.write_to(__cache, buf);
+        }
+        ::buffa::map_codec::write_field::<
+            ::buffa::map_codec::Str,
+            ::buffa::map_codec::BytesVec,
+            _,
+        >(&self.data, 2u32, buf);
+        if self.deposit.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                3u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.deposit.write_to(__cache, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.code.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::map_codec::merge_entry::<
+                    ::buffa::map_codec::Str,
+                    ::buffa::map_codec::BytesVec,
+                    _,
+                >(&mut self.data, buf, ctx)?;
+            }
+            3u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.deposit.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.code = ::buffa::MessageField::none();
+        self.data.clear();
+        self.deposit = ::buffa::MessageField::none();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct GlobalContractIdentifierView {
+    pub identifier: ::core::option::Option<
+        __buffa::oneof::global_contract_identifier_view::Identifier,
+    >,
+}
+impl ::core::fmt::Debug for GlobalContractIdentifierView {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("GlobalContractIdentifierView")
+            .field("identifier", &self.identifier)
+            .finish()
+    }
+}
+impl GlobalContractIdentifierView {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GlobalContractIdentifierView";
+}
+::buffa::impl_default_instance!(GlobalContractIdentifierView);
+impl ::buffa::MessageName for GlobalContractIdentifierView {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "GlobalContractIdentifierView";
+    const FULL_NAME: &'static str = "sf.near.type.v1.GlobalContractIdentifierView";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GlobalContractIdentifierView";
+}
+impl ::buffa::Message for GlobalContractIdentifierView {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if let ::core::option::Option::Some(ref v) = self.identifier {
+            match v {
+                __buffa::oneof::global_contract_identifier_view::Identifier::CodeHash(
+                    x,
+                ) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::global_contract_identifier_view::Identifier::AccountId(
+                    x,
+                ) => {
+                    size += 1u64 + ::buffa::types::string_encoded_len(x) as u64;
+                }
+            }
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if let ::core::option::Option::Some(ref v) = self.identifier {
+            match v {
+                __buffa::oneof::global_contract_identifier_view::Identifier::CodeHash(
+                    x,
+                ) => {
+                    ::buffa::types::put_len_delimited_header(
+                        1u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::global_contract_identifier_view::Identifier::AccountId(
+                    x,
+                ) => {
+                    ::buffa::types::put_string_field(2u32, x, buf);
+                }
+            }
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::global_contract_identifier_view::Identifier::CodeHash(
+                        ref mut existing,
+                    ),
+                ) = self.identifier
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.identifier = ::core::option::Option::Some(
+                        __buffa::oneof::global_contract_identifier_view::Identifier::CodeHash(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                self.identifier = ::core::option::Option::Some(
+                    __buffa::oneof::global_contract_identifier_view::Identifier::AccountId(
+                        ::buffa::types::decode_string(buf)?,
+                    ),
+                );
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.identifier = ::core::option::Option::None;
+    }
+}
+pub mod global_contract_identifier_view {
+    #[allow(unused_imports)]
+    use super::*;
+    #[doc(inline)]
+    pub use super::__buffa::oneof::global_contract_identifier_view::Identifier;
+    #[doc(inline)]
+    pub use super::__buffa::view::oneof::global_contract_identifier_view::Identifier as IdentifierView;
 }
 #[derive(Clone, PartialEq, Default)]
 pub struct CreateAccountAction {}
@@ -13424,6 +16991,26 @@ impl ::buffa::Message for AccessKeyPermission {
                         += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
                             + inner as u64;
                 }
+                __buffa::oneof::access_key_permission::Permission::GasKeyFunctionCall(
+                    x,
+                ) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::access_key_permission::Permission::GasKeyFullAccess(
+                    x,
+                ) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
             }
         }
         ::buffa::saturate_size(size)
@@ -13448,6 +17035,26 @@ impl ::buffa::Message for AccessKeyPermission {
                 __buffa::oneof::access_key_permission::Permission::FullAccess(x) => {
                     ::buffa::types::put_len_delimited_header(
                         2u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::access_key_permission::Permission::GasKeyFunctionCall(
+                    x,
+                ) => {
+                    ::buffa::types::put_len_delimited_header(
+                        3u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::access_key_permission::Permission::GasKeyFullAccess(
+                    x,
+                ) => {
+                    ::buffa::types::put_len_delimited_header(
+                        4u32,
                         u64::from(__cache.consume_next()),
                         buf,
                     );
@@ -13506,6 +17113,50 @@ impl ::buffa::Message for AccessKeyPermission {
                     ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
                     self.permission = ::core::option::Option::Some(
                         __buffa::oneof::access_key_permission::Permission::FullAccess(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            3u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::access_key_permission::Permission::GasKeyFunctionCall(
+                        ref mut existing,
+                    ),
+                ) = self.permission
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.permission = ::core::option::Option::Some(
+                        __buffa::oneof::access_key_permission::Permission::GasKeyFunctionCall(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            4u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::access_key_permission::Permission::GasKeyFullAccess(
+                        ref mut existing,
+                    ),
+                ) = self.permission
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.permission = ::core::option::Option::Some(
+                        __buffa::oneof::access_key_permission::Permission::GasKeyFullAccess(
                             ::buffa::alloc::boxed::Box::new(val),
                         ),
                     );
@@ -13726,4 +17377,301 @@ impl ::buffa::Message for FullAccessPermission {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {}
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct GasKeyFunctionCallPermission {
+    /// Field 1: `balance`
+    pub balance: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+    /// Field 2: `num_nonces`
+    pub num_nonces: u32,
+    /// Field 3: `allowance`
+    pub allowance: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+    /// Field 4: `receiver_id`
+    pub receiver_id: ::buffa::alloc::string::String,
+    /// Field 5: `method_names`
+    pub method_names: ::buffa::alloc::vec::Vec<::buffa::alloc::string::String>,
+}
+impl ::core::fmt::Debug for GasKeyFunctionCallPermission {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("GasKeyFunctionCallPermission")
+            .field("balance", &self.balance)
+            .field("num_nonces", &self.num_nonces)
+            .field("allowance", &self.allowance)
+            .field("receiver_id", &self.receiver_id)
+            .field("method_names", &self.method_names)
+            .finish()
+    }
+}
+impl GasKeyFunctionCallPermission {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GasKeyFunctionCallPermission";
+}
+::buffa::impl_default_instance!(GasKeyFunctionCallPermission);
+impl ::buffa::MessageName for GasKeyFunctionCallPermission {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "GasKeyFunctionCallPermission";
+    const FULL_NAME: &'static str = "sf.near.type.v1.GasKeyFunctionCallPermission";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GasKeyFunctionCallPermission";
+}
+impl ::buffa::Message for GasKeyFunctionCallPermission {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.balance.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.balance.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.num_nonces != 0u32 {
+            size += 1u64 + ::buffa::types::uint32_encoded_len(self.num_nonces) as u64;
+        }
+        if self.allowance.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.allowance.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if !self.receiver_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.receiver_id) as u64;
+        }
+        for v in &self.method_names {
+            size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.balance.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.balance.write_to(__cache, buf);
+        }
+        if self.num_nonces != 0u32 {
+            ::buffa::types::put_uint32_field(2u32, self.num_nonces, buf);
+        }
+        if self.allowance.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                3u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.allowance.write_to(__cache, buf);
+        }
+        if !self.receiver_id.is_empty() {
+            ::buffa::types::put_string_field(4u32, &self.receiver_id, buf);
+        }
+        for v in &self.method_names {
+            ::buffa::types::put_string_field(5u32, v, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.balance.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.num_nonces = ::buffa::types::decode_uint32(buf)?;
+            }
+            3u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.allowance.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            4u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.receiver_id, buf)?;
+            }
+            5u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                let __elem = ::buffa::types::decode_string(buf)?;
+                ctx.register_element_memory(
+                    ::buffa::__private::element_footprint(&__elem),
+                )?;
+                self.method_names.push(__elem);
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.balance = ::buffa::MessageField::none();
+        self.num_nonces = 0u32;
+        self.allowance = ::buffa::MessageField::none();
+        self.receiver_id.clear();
+        self.method_names.clear();
+    }
+}
+#[derive(Clone, PartialEq, Default)]
+pub struct GasKeyFullAccessPermission {
+    /// Field 1: `balance`
+    pub balance: ::buffa::MessageField<BigInt, ::buffa::Inline<BigInt>>,
+    /// Field 2: `num_nonces`
+    pub num_nonces: u32,
+}
+impl ::core::fmt::Debug for GasKeyFullAccessPermission {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("GasKeyFullAccessPermission")
+            .field("balance", &self.balance)
+            .field("num_nonces", &self.num_nonces)
+            .finish()
+    }
+}
+impl GasKeyFullAccessPermission {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GasKeyFullAccessPermission";
+}
+::buffa::impl_default_instance!(GasKeyFullAccessPermission);
+impl ::buffa::MessageName for GasKeyFullAccessPermission {
+    const PACKAGE: &'static str = "sf.near.type.v1";
+    const NAME: &'static str = "GasKeyFullAccessPermission";
+    const FULL_NAME: &'static str = "sf.near.type.v1.GasKeyFullAccessPermission";
+    const TYPE_URL: &'static str = "type.googleapis.com/sf.near.type.v1.GasKeyFullAccessPermission";
+}
+impl ::buffa::Message for GasKeyFullAccessPermission {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.balance.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.balance.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.num_nonces != 0u32 {
+            size += 1u64 + ::buffa::types::uint32_encoded_len(self.num_nonces) as u64;
+        }
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.balance.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.balance.write_to(__cache, buf);
+        }
+        if self.num_nonces != 0u32 {
+            ::buffa::types::put_uint32_field(2u32, self.num_nonces, buf);
+        }
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.balance.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::Varint,
+                )?;
+                self.num_nonces = ::buffa::types::decode_uint32(buf)?;
+            }
+            _ => {
+                ::buffa::encoding::skip_field_depth(tag, buf, ctx.depth())?;
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.balance = ::buffa::MessageField::none();
+        self.num_nonces = 0u32;
+    }
 }

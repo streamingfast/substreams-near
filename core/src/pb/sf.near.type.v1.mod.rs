@@ -163,6 +163,12 @@ pub use self::__buffa::view::ReceiptOwnedView;
 #[doc(inline)]
 pub use self::__buffa::lazy_view::ReceiptLazyView;
 #[doc(inline)]
+pub use self::__buffa::view::ReceiptGlobalContractDistributionView;
+#[doc(inline)]
+pub use self::__buffa::view::ReceiptGlobalContractDistributionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::ReceiptGlobalContractDistributionLazyView;
+#[doc(inline)]
 pub use self::__buffa::view::ReceiptDataView;
 #[doc(inline)]
 pub use self::__buffa::view::ReceiptDataOwnedView;
@@ -355,6 +361,66 @@ pub use self::__buffa::view::DelegateActionNonceTooLargeKindOwnedView;
 #[doc(inline)]
 pub use self::__buffa::lazy_view::DelegateActionNonceTooLargeKindLazyView;
 #[doc(inline)]
+pub use self::__buffa::view::NonRefundableTransferToExistingAccountKindView;
+#[doc(inline)]
+pub use self::__buffa::view::NonRefundableTransferToExistingAccountKindOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::NonRefundableTransferToExistingAccountKindLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::GlobalContractDoesNotExistView;
+#[doc(inline)]
+pub use self::__buffa::view::GlobalContractDoesNotExistOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::GlobalContractDoesNotExistLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::GasKeyDoesNotExistKindView;
+#[doc(inline)]
+pub use self::__buffa::view::GasKeyDoesNotExistKindOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::GasKeyDoesNotExistKindLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::InsufficientGasKeyBalanceKindView;
+#[doc(inline)]
+pub use self::__buffa::view::InsufficientGasKeyBalanceKindOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::InsufficientGasKeyBalanceKindLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::GasKeyBalanceTooHighKindView;
+#[doc(inline)]
+pub use self::__buffa::view::GasKeyBalanceTooHighKindOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::GasKeyBalanceTooHighKindLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::DelegateActionInvalidNonceIndexKindView;
+#[doc(inline)]
+pub use self::__buffa::view::DelegateActionInvalidNonceIndexKindOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::DelegateActionInvalidNonceIndexKindLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::TotalPromiseInputSizeExceededKindView;
+#[doc(inline)]
+pub use self::__buffa::view::TotalPromiseInputSizeExceededKindOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::TotalPromiseInputSizeExceededKindLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::ReceiptStorageProofSizeExceededKindView;
+#[doc(inline)]
+pub use self::__buffa::view::ReceiptStorageProofSizeExceededKindOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::ReceiptStorageProofSizeExceededKindLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::MalformedUniversalStateInitKindView;
+#[doc(inline)]
+pub use self::__buffa::view::MalformedUniversalStateInitKindOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::MalformedUniversalStateInitKindLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::AccountNotInitializedKindView;
+#[doc(inline)]
+pub use self::__buffa::view::AccountNotInitializedKindOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::AccountNotInitializedKindLazyView;
+#[doc(inline)]
 pub use self::__buffa::view::MerklePathView;
 #[doc(inline)]
 pub use self::__buffa::view::MerklePathOwnedView;
@@ -372,6 +438,72 @@ pub use self::__buffa::view::ActionView;
 pub use self::__buffa::view::ActionOwnedView;
 #[doc(inline)]
 pub use self::__buffa::lazy_view::ActionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::TransferToGasKeyActionView;
+#[doc(inline)]
+pub use self::__buffa::view::TransferToGasKeyActionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::TransferToGasKeyActionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::WithdrawFromGasKeyActionView;
+#[doc(inline)]
+pub use self::__buffa::view::WithdrawFromGasKeyActionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::WithdrawFromGasKeyActionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::UniversalStateInitActionView;
+#[doc(inline)]
+pub use self::__buffa::view::UniversalStateInitActionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::UniversalStateInitActionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::SignedDelegateActionV2View;
+#[doc(inline)]
+pub use self::__buffa::view::SignedDelegateActionV2OwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::SignedDelegateActionV2LazyView;
+#[doc(inline)]
+pub use self::__buffa::view::DelegateActionV2View;
+#[doc(inline)]
+pub use self::__buffa::view::DelegateActionV2OwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::DelegateActionV2LazyView;
+#[doc(inline)]
+pub use self::__buffa::view::DeployGlobalContractActionView;
+#[doc(inline)]
+pub use self::__buffa::view::DeployGlobalContractActionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::DeployGlobalContractActionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::DeployGlobalContractByAccountIdActionView;
+#[doc(inline)]
+pub use self::__buffa::view::DeployGlobalContractByAccountIdActionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::DeployGlobalContractByAccountIdActionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::UseGlobalContractActionView;
+#[doc(inline)]
+pub use self::__buffa::view::UseGlobalContractActionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::UseGlobalContractActionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::UseGlobalContractByAccountIdActionView;
+#[doc(inline)]
+pub use self::__buffa::view::UseGlobalContractByAccountIdActionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::UseGlobalContractByAccountIdActionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::DeterministicStateInitView;
+#[doc(inline)]
+pub use self::__buffa::view::DeterministicStateInitOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::DeterministicStateInitLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::GlobalContractIdentifierViewView;
+#[doc(inline)]
+pub use self::__buffa::view::GlobalContractIdentifierViewOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::GlobalContractIdentifierViewLazyView;
 #[doc(inline)]
 pub use self::__buffa::view::CreateAccountActionView;
 #[doc(inline)]
@@ -456,3 +588,15 @@ pub use self::__buffa::view::FullAccessPermissionView;
 pub use self::__buffa::view::FullAccessPermissionOwnedView;
 #[doc(inline)]
 pub use self::__buffa::lazy_view::FullAccessPermissionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::GasKeyFunctionCallPermissionView;
+#[doc(inline)]
+pub use self::__buffa::view::GasKeyFunctionCallPermissionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::GasKeyFunctionCallPermissionLazyView;
+#[doc(inline)]
+pub use self::__buffa::view::GasKeyFullAccessPermissionView;
+#[doc(inline)]
+pub use self::__buffa::view::GasKeyFullAccessPermissionOwnedView;
+#[doc(inline)]
+pub use self::__buffa::lazy_view::GasKeyFullAccessPermissionLazyView;

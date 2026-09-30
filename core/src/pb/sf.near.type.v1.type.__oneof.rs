@@ -340,6 +340,11 @@ pub mod receipt {
     pub enum Receipt {
         Action(::buffa::alloc::boxed::Box<super::super::super::ReceiptAction>),
         Data(::buffa::alloc::boxed::Box<super::super::super::ReceiptData>),
+        GlobalContractDistribution(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::ReceiptGlobalContractDistribution,
+            >,
+        ),
     }
     impl ::buffa::Oneof for Receipt {}
     impl From<super::super::super::ReceiptAction> for Receipt {
@@ -360,6 +365,37 @@ pub mod receipt {
     impl From<super::super::super::ReceiptData> for ::core::option::Option<Receipt> {
         fn from(v: super::super::super::ReceiptData) -> Self {
             Self::Some(Receipt::from(v))
+        }
+    }
+    impl From<super::super::super::ReceiptGlobalContractDistribution> for Receipt {
+        fn from(v: super::super::super::ReceiptGlobalContractDistribution) -> Self {
+            Self::GlobalContractDistribution(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::ReceiptGlobalContractDistribution>
+    for ::core::option::Option<Receipt> {
+        fn from(v: super::super::super::ReceiptGlobalContractDistribution) -> Self {
+            Self::Some(Receipt::from(v))
+        }
+    }
+}
+pub mod receipt_global_contract_distribution {
+    #[allow(unused_imports)]
+    use super::*;
+    #[derive(Clone, PartialEq, Debug)]
+    pub enum Id {
+        CodeHash(::buffa::alloc::boxed::Box<super::super::super::CryptoHash>),
+        AccountId(::buffa::alloc::string::String),
+    }
+    impl ::buffa::Oneof for Id {}
+    impl From<super::super::super::CryptoHash> for Id {
+        fn from(v: super::super::super::CryptoHash) -> Self {
+            Self::CodeHash(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::CryptoHash> for ::core::option::Option<Id> {
+        fn from(v: super::super::super::CryptoHash) -> Self {
+            Self::Some(Id::from(v))
         }
     }
 }
@@ -541,6 +577,48 @@ pub mod action_error {
             ::buffa::alloc::boxed::Box<
                 super::super::super::DelegateActionNonceTooLargeKind,
             >,
+        ),
+        NonRefundableTransferToExistingAccount(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::NonRefundableTransferToExistingAccountKind,
+            >,
+        ),
+        GlobalContractDoesNotExist(
+            ::buffa::alloc::boxed::Box<super::super::super::GlobalContractDoesNotExist>,
+        ),
+        GasKeyDoesNotExist(
+            ::buffa::alloc::boxed::Box<super::super::super::GasKeyDoesNotExistKind>,
+        ),
+        InsufficientGasKeyBalance(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::InsufficientGasKeyBalanceKind,
+            >,
+        ),
+        GasKeyBalanceTooHigh(
+            ::buffa::alloc::boxed::Box<super::super::super::GasKeyBalanceTooHighKind>,
+        ),
+        DelegateActionInvalidNonceIndex(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::DelegateActionInvalidNonceIndexKind,
+            >,
+        ),
+        TotalPromiseInputSizeExceeded(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::TotalPromiseInputSizeExceededKind,
+            >,
+        ),
+        ReceiptStorageProofSizeExceeded(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::ReceiptStorageProofSizeExceededKind,
+            >,
+        ),
+        MalformedUniversalStateInit(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::MalformedUniversalStateInitKind,
+            >,
+        ),
+        AccountNotInitialized(
+            ::buffa::alloc::boxed::Box<super::super::super::AccountNotInitializedKind>,
         ),
     }
     impl ::buffa::Oneof for Kind {}
@@ -798,6 +876,142 @@ pub mod action_error {
             Self::Some(Kind::from(v))
         }
     }
+    impl From<super::super::super::NonRefundableTransferToExistingAccountKind> for Kind {
+        fn from(
+            v: super::super::super::NonRefundableTransferToExistingAccountKind,
+        ) -> Self {
+            Self::NonRefundableTransferToExistingAccount(
+                ::buffa::alloc::boxed::Box::new(v),
+            )
+        }
+    }
+    impl From<super::super::super::NonRefundableTransferToExistingAccountKind>
+    for ::core::option::Option<Kind> {
+        fn from(
+            v: super::super::super::NonRefundableTransferToExistingAccountKind,
+        ) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+    impl From<super::super::super::GlobalContractDoesNotExist> for Kind {
+        fn from(v: super::super::super::GlobalContractDoesNotExist) -> Self {
+            Self::GlobalContractDoesNotExist(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::GlobalContractDoesNotExist>
+    for ::core::option::Option<Kind> {
+        fn from(v: super::super::super::GlobalContractDoesNotExist) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+    impl From<super::super::super::GasKeyDoesNotExistKind> for Kind {
+        fn from(v: super::super::super::GasKeyDoesNotExistKind) -> Self {
+            Self::GasKeyDoesNotExist(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::GasKeyDoesNotExistKind>
+    for ::core::option::Option<Kind> {
+        fn from(v: super::super::super::GasKeyDoesNotExistKind) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+    impl From<super::super::super::InsufficientGasKeyBalanceKind> for Kind {
+        fn from(v: super::super::super::InsufficientGasKeyBalanceKind) -> Self {
+            Self::InsufficientGasKeyBalance(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::InsufficientGasKeyBalanceKind>
+    for ::core::option::Option<Kind> {
+        fn from(v: super::super::super::InsufficientGasKeyBalanceKind) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+    impl From<super::super::super::GasKeyBalanceTooHighKind> for Kind {
+        fn from(v: super::super::super::GasKeyBalanceTooHighKind) -> Self {
+            Self::GasKeyBalanceTooHigh(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::GasKeyBalanceTooHighKind>
+    for ::core::option::Option<Kind> {
+        fn from(v: super::super::super::GasKeyBalanceTooHighKind) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+    impl From<super::super::super::DelegateActionInvalidNonceIndexKind> for Kind {
+        fn from(v: super::super::super::DelegateActionInvalidNonceIndexKind) -> Self {
+            Self::DelegateActionInvalidNonceIndex(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::DelegateActionInvalidNonceIndexKind>
+    for ::core::option::Option<Kind> {
+        fn from(v: super::super::super::DelegateActionInvalidNonceIndexKind) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+    impl From<super::super::super::TotalPromiseInputSizeExceededKind> for Kind {
+        fn from(v: super::super::super::TotalPromiseInputSizeExceededKind) -> Self {
+            Self::TotalPromiseInputSizeExceeded(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::TotalPromiseInputSizeExceededKind>
+    for ::core::option::Option<Kind> {
+        fn from(v: super::super::super::TotalPromiseInputSizeExceededKind) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+    impl From<super::super::super::ReceiptStorageProofSizeExceededKind> for Kind {
+        fn from(v: super::super::super::ReceiptStorageProofSizeExceededKind) -> Self {
+            Self::ReceiptStorageProofSizeExceeded(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::ReceiptStorageProofSizeExceededKind>
+    for ::core::option::Option<Kind> {
+        fn from(v: super::super::super::ReceiptStorageProofSizeExceededKind) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+    impl From<super::super::super::MalformedUniversalStateInitKind> for Kind {
+        fn from(v: super::super::super::MalformedUniversalStateInitKind) -> Self {
+            Self::MalformedUniversalStateInit(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::MalformedUniversalStateInitKind>
+    for ::core::option::Option<Kind> {
+        fn from(v: super::super::super::MalformedUniversalStateInitKind) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+    impl From<super::super::super::AccountNotInitializedKind> for Kind {
+        fn from(v: super::super::super::AccountNotInitializedKind) -> Self {
+            Self::AccountNotInitialized(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::AccountNotInitializedKind>
+    for ::core::option::Option<Kind> {
+        fn from(v: super::super::super::AccountNotInitializedKind) -> Self {
+            Self::Some(Kind::from(v))
+        }
+    }
+}
+pub mod global_contract_does_not_exist {
+    #[allow(unused_imports)]
+    use super::*;
+    #[derive(Clone, PartialEq, Debug)]
+    pub enum Identifier {
+        CodeHash(::buffa::alloc::boxed::Box<super::super::super::CryptoHash>),
+        AccountId(::buffa::alloc::string::String),
+    }
+    impl ::buffa::Oneof for Identifier {}
+    impl From<super::super::super::CryptoHash> for Identifier {
+        fn from(v: super::super::super::CryptoHash) -> Self {
+            Self::CodeHash(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::CryptoHash> for ::core::option::Option<Identifier> {
+        fn from(v: super::super::super::CryptoHash) -> Self {
+            Self::Some(Identifier::from(v))
+        }
+    }
 }
 pub mod action {
     #[allow(unused_imports)]
@@ -821,6 +1035,37 @@ pub mod action {
             ::buffa::alloc::boxed::Box<super::super::super::DeleteAccountAction>,
         ),
         Delegate(::buffa::alloc::boxed::Box<super::super::super::SignedDelegateAction>),
+        DeployGlobalContract(
+            ::buffa::alloc::boxed::Box<super::super::super::DeployGlobalContractAction>,
+        ),
+        DeployGlobalContractByAccountId(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::DeployGlobalContractByAccountIdAction,
+            >,
+        ),
+        UseGlobalContract(
+            ::buffa::alloc::boxed::Box<super::super::super::UseGlobalContractAction>,
+        ),
+        UseGlobalContractByAccountId(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::UseGlobalContractByAccountIdAction,
+            >,
+        ),
+        DeterministicStateInit(
+            ::buffa::alloc::boxed::Box<super::super::super::DeterministicStateInit>,
+        ),
+        TransferToGasKey(
+            ::buffa::alloc::boxed::Box<super::super::super::TransferToGasKeyAction>,
+        ),
+        WithdrawFromGasKey(
+            ::buffa::alloc::boxed::Box<super::super::super::WithdrawFromGasKeyAction>,
+        ),
+        DelegateV2(
+            ::buffa::alloc::boxed::Box<super::super::super::SignedDelegateActionV2>,
+        ),
+        UniversalStateInit(
+            ::buffa::alloc::boxed::Box<super::super::super::UniversalStateInitAction>,
+        ),
     }
     impl ::buffa::Oneof for Action {}
     impl From<super::super::super::CreateAccountAction> for Action {
@@ -918,6 +1163,125 @@ pub mod action {
             Self::Some(Action::from(v))
         }
     }
+    impl From<super::super::super::DeployGlobalContractAction> for Action {
+        fn from(v: super::super::super::DeployGlobalContractAction) -> Self {
+            Self::DeployGlobalContract(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::DeployGlobalContractAction>
+    for ::core::option::Option<Action> {
+        fn from(v: super::super::super::DeployGlobalContractAction) -> Self {
+            Self::Some(Action::from(v))
+        }
+    }
+    impl From<super::super::super::DeployGlobalContractByAccountIdAction> for Action {
+        fn from(v: super::super::super::DeployGlobalContractByAccountIdAction) -> Self {
+            Self::DeployGlobalContractByAccountId(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::DeployGlobalContractByAccountIdAction>
+    for ::core::option::Option<Action> {
+        fn from(v: super::super::super::DeployGlobalContractByAccountIdAction) -> Self {
+            Self::Some(Action::from(v))
+        }
+    }
+    impl From<super::super::super::UseGlobalContractAction> for Action {
+        fn from(v: super::super::super::UseGlobalContractAction) -> Self {
+            Self::UseGlobalContract(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::UseGlobalContractAction>
+    for ::core::option::Option<Action> {
+        fn from(v: super::super::super::UseGlobalContractAction) -> Self {
+            Self::Some(Action::from(v))
+        }
+    }
+    impl From<super::super::super::UseGlobalContractByAccountIdAction> for Action {
+        fn from(v: super::super::super::UseGlobalContractByAccountIdAction) -> Self {
+            Self::UseGlobalContractByAccountId(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::UseGlobalContractByAccountIdAction>
+    for ::core::option::Option<Action> {
+        fn from(v: super::super::super::UseGlobalContractByAccountIdAction) -> Self {
+            Self::Some(Action::from(v))
+        }
+    }
+    impl From<super::super::super::DeterministicStateInit> for Action {
+        fn from(v: super::super::super::DeterministicStateInit) -> Self {
+            Self::DeterministicStateInit(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::DeterministicStateInit>
+    for ::core::option::Option<Action> {
+        fn from(v: super::super::super::DeterministicStateInit) -> Self {
+            Self::Some(Action::from(v))
+        }
+    }
+    impl From<super::super::super::TransferToGasKeyAction> for Action {
+        fn from(v: super::super::super::TransferToGasKeyAction) -> Self {
+            Self::TransferToGasKey(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::TransferToGasKeyAction>
+    for ::core::option::Option<Action> {
+        fn from(v: super::super::super::TransferToGasKeyAction) -> Self {
+            Self::Some(Action::from(v))
+        }
+    }
+    impl From<super::super::super::WithdrawFromGasKeyAction> for Action {
+        fn from(v: super::super::super::WithdrawFromGasKeyAction) -> Self {
+            Self::WithdrawFromGasKey(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::WithdrawFromGasKeyAction>
+    for ::core::option::Option<Action> {
+        fn from(v: super::super::super::WithdrawFromGasKeyAction) -> Self {
+            Self::Some(Action::from(v))
+        }
+    }
+    impl From<super::super::super::SignedDelegateActionV2> for Action {
+        fn from(v: super::super::super::SignedDelegateActionV2) -> Self {
+            Self::DelegateV2(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::SignedDelegateActionV2>
+    for ::core::option::Option<Action> {
+        fn from(v: super::super::super::SignedDelegateActionV2) -> Self {
+            Self::Some(Action::from(v))
+        }
+    }
+    impl From<super::super::super::UniversalStateInitAction> for Action {
+        fn from(v: super::super::super::UniversalStateInitAction) -> Self {
+            Self::UniversalStateInit(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::UniversalStateInitAction>
+    for ::core::option::Option<Action> {
+        fn from(v: super::super::super::UniversalStateInitAction) -> Self {
+            Self::Some(Action::from(v))
+        }
+    }
+}
+pub mod global_contract_identifier_view {
+    #[allow(unused_imports)]
+    use super::*;
+    #[derive(Clone, PartialEq, Debug)]
+    pub enum Identifier {
+        CodeHash(::buffa::alloc::boxed::Box<super::super::super::CryptoHash>),
+        AccountId(::buffa::alloc::string::String),
+    }
+    impl ::buffa::Oneof for Identifier {}
+    impl From<super::super::super::CryptoHash> for Identifier {
+        fn from(v: super::super::super::CryptoHash) -> Self {
+            Self::CodeHash(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::CryptoHash> for ::core::option::Option<Identifier> {
+        fn from(v: super::super::super::CryptoHash) -> Self {
+            Self::Some(Identifier::from(v))
+        }
+    }
 }
 pub mod access_key_permission {
     #[allow(unused_imports)]
@@ -929,6 +1293,12 @@ pub mod access_key_permission {
         ),
         FullAccess(
             ::buffa::alloc::boxed::Box<super::super::super::FullAccessPermission>,
+        ),
+        GasKeyFunctionCall(
+            ::buffa::alloc::boxed::Box<super::super::super::GasKeyFunctionCallPermission>,
+        ),
+        GasKeyFullAccess(
+            ::buffa::alloc::boxed::Box<super::super::super::GasKeyFullAccessPermission>,
         ),
     }
     impl ::buffa::Oneof for Permission {}
@@ -951,6 +1321,28 @@ pub mod access_key_permission {
     impl From<super::super::super::FullAccessPermission>
     for ::core::option::Option<Permission> {
         fn from(v: super::super::super::FullAccessPermission) -> Self {
+            Self::Some(Permission::from(v))
+        }
+    }
+    impl From<super::super::super::GasKeyFunctionCallPermission> for Permission {
+        fn from(v: super::super::super::GasKeyFunctionCallPermission) -> Self {
+            Self::GasKeyFunctionCall(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::GasKeyFunctionCallPermission>
+    for ::core::option::Option<Permission> {
+        fn from(v: super::super::super::GasKeyFunctionCallPermission) -> Self {
+            Self::Some(Permission::from(v))
+        }
+    }
+    impl From<super::super::super::GasKeyFullAccessPermission> for Permission {
+        fn from(v: super::super::super::GasKeyFullAccessPermission) -> Self {
+            Self::GasKeyFullAccess(::buffa::alloc::boxed::Box::new(v))
+        }
+    }
+    impl From<super::super::super::GasKeyFullAccessPermission>
+    for ::core::option::Option<Permission> {
+        fn from(v: super::super::super::GasKeyFullAccessPermission) -> Self {
             Self::Some(Permission::from(v))
         }
     }

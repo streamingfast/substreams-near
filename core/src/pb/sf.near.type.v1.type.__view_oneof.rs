@@ -156,6 +156,26 @@ pub mod receipt {
                 super::super::super::super::__buffa::view::ReceiptDataView<'a>,
             >,
         ),
+        GlobalContractDistribution(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::ReceiptGlobalContractDistributionView<
+                    'a,
+                >,
+            >,
+        ),
+    }
+}
+pub mod receipt_global_contract_distribution {
+    #[allow(unused_imports)]
+    use super::*;
+    #[derive(Clone, Debug)]
+    pub enum Id<'a> {
+        CodeHash(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::CryptoHashView<'a>,
+            >,
+        ),
+        AccountId(&'a str),
     }
 }
 pub mod execution_outcome {
@@ -357,6 +377,87 @@ pub mod action_error {
                 >,
             >,
         ),
+        NonRefundableTransferToExistingAccount(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::NonRefundableTransferToExistingAccountKindView<
+                    'a,
+                >,
+            >,
+        ),
+        GlobalContractDoesNotExist(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::GlobalContractDoesNotExistView<
+                    'a,
+                >,
+            >,
+        ),
+        GasKeyDoesNotExist(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::GasKeyDoesNotExistKindView<'a>,
+            >,
+        ),
+        InsufficientGasKeyBalance(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::InsufficientGasKeyBalanceKindView<
+                    'a,
+                >,
+            >,
+        ),
+        GasKeyBalanceTooHigh(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::GasKeyBalanceTooHighKindView<
+                    'a,
+                >,
+            >,
+        ),
+        DelegateActionInvalidNonceIndex(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::DelegateActionInvalidNonceIndexKindView<
+                    'a,
+                >,
+            >,
+        ),
+        TotalPromiseInputSizeExceeded(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::TotalPromiseInputSizeExceededKindView<
+                    'a,
+                >,
+            >,
+        ),
+        ReceiptStorageProofSizeExceeded(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::ReceiptStorageProofSizeExceededKindView<
+                    'a,
+                >,
+            >,
+        ),
+        MalformedUniversalStateInit(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::MalformedUniversalStateInitKindView<
+                    'a,
+                >,
+            >,
+        ),
+        AccountNotInitialized(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::AccountNotInitializedKindView<
+                    'a,
+                >,
+            >,
+        ),
+    }
+}
+pub mod global_contract_does_not_exist {
+    #[allow(unused_imports)]
+    use super::*;
+    #[derive(Clone, Debug)]
+    pub enum Identifier<'a> {
+        CodeHash(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::CryptoHashView<'a>,
+            >,
+        ),
+        AccountId(&'a str),
     }
 }
 pub mod action {
@@ -409,6 +510,76 @@ pub mod action {
                 super::super::super::super::__buffa::view::SignedDelegateActionView<'a>,
             >,
         ),
+        DeployGlobalContract(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::DeployGlobalContractActionView<
+                    'a,
+                >,
+            >,
+        ),
+        DeployGlobalContractByAccountId(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::DeployGlobalContractByAccountIdActionView<
+                    'a,
+                >,
+            >,
+        ),
+        UseGlobalContract(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::UseGlobalContractActionView<
+                    'a,
+                >,
+            >,
+        ),
+        UseGlobalContractByAccountId(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::UseGlobalContractByAccountIdActionView<
+                    'a,
+                >,
+            >,
+        ),
+        DeterministicStateInit(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::DeterministicStateInitView<'a>,
+            >,
+        ),
+        TransferToGasKey(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::TransferToGasKeyActionView<'a>,
+            >,
+        ),
+        WithdrawFromGasKey(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::WithdrawFromGasKeyActionView<
+                    'a,
+                >,
+            >,
+        ),
+        DelegateV2(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::SignedDelegateActionV2View<'a>,
+            >,
+        ),
+        UniversalStateInit(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::UniversalStateInitActionView<
+                    'a,
+                >,
+            >,
+        ),
+    }
+}
+pub mod global_contract_identifier_view {
+    #[allow(unused_imports)]
+    use super::*;
+    #[derive(Clone, Debug)]
+    pub enum Identifier<'a> {
+        CodeHash(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::CryptoHashView<'a>,
+            >,
+        ),
+        AccountId(&'a str),
     }
 }
 pub mod access_key_permission {
@@ -424,6 +595,20 @@ pub mod access_key_permission {
         FullAccess(
             ::buffa::alloc::boxed::Box<
                 super::super::super::super::__buffa::view::FullAccessPermissionView<'a>,
+            >,
+        ),
+        GasKeyFunctionCall(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::GasKeyFunctionCallPermissionView<
+                    'a,
+                >,
+            >,
+        ),
+        GasKeyFullAccess(
+            ::buffa::alloc::boxed::Box<
+                super::super::super::super::__buffa::view::GasKeyFullAccessPermissionView<
+                    'a,
+                >,
             >,
         ),
     }
